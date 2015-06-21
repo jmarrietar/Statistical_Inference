@@ -1,0 +1,49 @@
+---
+title: "ToothGrowth"
+output: pdf_document
+---
+
+
+##1. Load the ToothGrowth data and perform some basic exploratory data analyses 
+```{r}
+data(ToothGrowth)
+str(ToothGrowth)
+
+boxplot(len~supp,d=ToothGrowth)
+plot(ToothGrowth$dose,ToothGrowth$len) 
+plot(ToothGrowth$sup,ToothGrowth$len)
+```
+
+
+##2. Provide a basic summary of the data.
+```{r}
+summary(ToothGrowth)
+
+tapply(ToothGrowth$len,ToothGrowth$sup,mean)
+```
+
+
+##3 .Use confidence intervals and/or hypothesis tests to compare tooth growth by supp and dose.
+```{r}
+#T test for the difference in mean in pig with VC and OJ. 
+VC<-subset(ToothGrowth,supp=='VC')
+OJ<-subset(ToothGrowth,supp=='OJ')
+
+Sx<-var(VC$len)
+Sy<-var(OJ$len)
+
+sp<-sqrt((29*Sx^2 + 29*Sy^2)/(30+30-2))
+#Confidence interval for difference in mean of pigs with VC and OJ. 
+20.66333-16.96333+c(-1,1)*qt(.975,58)*sp*(1/30 + 1/30)^0.5
+
+```
+$O$ is in The confidence interval is in so with a certainty of 95% there is no Statistical difference between the pigs with OR and the pigs with VC.
+
+##4. Conclusion and assumptions. 
+Conclusion: 
+Supplement type does not make a statistical difference in the lenght of pigs.
+
+Assumptions are : 
+*Data from pics is iid normal distribuited. 
+*Pigs with OJ and pigs with VC are from independent groups.
+

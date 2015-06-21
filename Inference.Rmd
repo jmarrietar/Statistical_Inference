@@ -1,0 +1,87 @@
+---
+title: "Statistical Inference"
+output: pdf_document
+---
+
+In this project is going to be reported a comparative study between the Mean and Variance of the Exponential distribution vs the Theoretical mean and Variance of it. 
+
+Below is the code for a histogram of 40 random variables of an exponential distribution with lambda = 0.2 
+
+```{r}
+hist(rexp(40, 0.2), main="Exponential")
+```
+
+##1. Show the sample mean and compare it to the theoretical mean of the distribution.
+Sample Mean versus Theoretical Mean: 
+
+```{r echo=FALSE} 
+layout(matrix(c(1,1,2,2), 2, 2, byrow = TRUE))
+mne = NULL
+for (i in 1 : 1000) mne = c(mne, mean(rexp(40, 0.2)))
+hist(mne, main ="Mean 40 obs")
+abline(v=5,lwd=3)
+
+mne = NULL
+for (i in 1 : 1000) mne = c(mne, mean(rexp(400, 0.2)))
+hist(mne, main ="Mean 400 obs")
+abline(v=25,lwd=3)
+
+```
+
+Theoretical mean is $1/lambda$ therefore mean $= 1/0.2 = 5$
+If we encrease the number observations we can see the data more centered around the teorethical mean. 
+
+## 2. Show how variable the sample is (via variance) and compare it to the theoretical variance of the distribution.
+
+Sample Variance versus Theoretical Variance:  
+
+Theoretical variance is $1/lambda^2$ therefore variance= $1/0.2^2$
+
+```{r echo=FALSE}
+layout(matrix(c(1,1,2,2), 2, 2, byrow = TRUE))
+vre = NULL
+for (i in 1 : 1000) vre = c(vre, var(rexp(40, 0.2)))
+hist(vre)
+
+vre = NULL
+for (i in 1 : 1000) vre = c(vre, var(rexp(400, 0.2)))
+hist(vre)
+
+abline(v=25,lwd=3)
+```
+
+
+# 3. Show that the distribution is approximately normal.
+
+## Add a Normal Curve
+
+```{r echo=FALSE} 
+layout(matrix(c(1,1,2,2), 2, 2, byrow = TRUE))
+mne = NULL
+for (i in 1 : 1000) mne = c(mne, mean(rexp(40, 0.2)))
+h<-hist(mne, main ="Mean 40 obs")
+abline(v=5,lwd=3)
+x<-mne
+xfit<-seq(min(x),max(x),length=40) 
+yfit<-dnorm(xfit,mean=mean(x),sd=sd(x)) 
+yfit <- yfit*diff(h$mids[1:2])*length(x) 
+lines(xfit, yfit, col="blue", lwd=2)
+
+mne = NULL
+for (i in 1 : 1000) mne = c(mne, mean(rexp(400, 0.2)))
+h<-hist(mne, main ="Mean 400 obs")
+abline(v=25,lwd=3)
+
+x<-mne
+xfit<-seq(min(x),max(x),length=40) 
+yfit<-dnorm(xfit,mean=mean(x),sd=sd(x)) 
+yfit <- yfit*diff(h$mids[1:2])*length(x) 
+lines(xfit, yfit, col="blue", lwd=2)
+
+```
+
+The Central Limit Theorem states that a distribution of idd variables becomes that of a standardnormal as the sample size increases.
+
+ if we see plots above we can se that in the increase of the samples. The Average tend to center at its real value. 
+
+
